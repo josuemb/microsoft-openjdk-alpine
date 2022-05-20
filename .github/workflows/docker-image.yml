@@ -19,5 +19,7 @@ jobs:
         for FILE in $(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA | grep -i "Dockerfile")
         do
           TEMP_IMAGE_NAME="img-$RANDOM"
+          echo $TEMP_IMAGE_NAME
           PATH_DOCKERFILE={{ github.workspace	}}
+          echo $PATH_DOCKERFILE
         done;
