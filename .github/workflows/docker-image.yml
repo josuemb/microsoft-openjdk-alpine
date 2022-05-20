@@ -1,0 +1,23 @@
+name: Build Docker Images - CI
+
+on:
+  push:
+    branches: [ actions-test ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker images changed
+      run: |
+        for FILE in $(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA | grep -i "Dockerfile")
+        do
+          TEMP_IMAGE_NAME="img-$RANDOM"
+          PATH_DOCKERFILE={{ github.workspace	}}
+        done;
