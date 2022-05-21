@@ -15,8 +15,8 @@ jobs:
     name: "Get changed Docker Files list"
 
     steps:
-    - uses: actions/checkout@v3
     - id: get-changed-docker-files
+    - uses: actions/checkout@v3
     - name: Get changed Docker Files
       run: |
         echo "Hello"
