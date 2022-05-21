@@ -28,7 +28,7 @@ jobs:
 
   build_and_push_images:
     runs-on: ubuntu-latest
-    name: "Build and Push Docker Images to repository"
+    name: "Build and Push Docker Image to repository"
     needs: find_docker_files
     strategy:
       matrix:
@@ -54,11 +54,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        id: build-and-push-images
-        name: "Build and push Docker images to the registry"
+        id: build-and-push-image
+        name: "Build and push Docker image to the registry"
         uses: docker/build-push-action@v3
         with:
           context: "${{github.workspace}}${{ matrix.docker_file.path }}"
           file: "${{github.workspace}}${{ matrix.docker_file.path }}/${{ matrix.docker_file.file }}"
           load: true
           tags: "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}"
+      -
+        id: test-image
+        name: "Test Docker image locally"
+        run: |
+          JAVA_VERSION=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java --version)
+          echo "JAVA_VERSION:"
+          echo $JAVA_VERSION
