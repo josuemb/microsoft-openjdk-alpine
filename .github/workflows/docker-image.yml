@@ -2,8 +2,6 @@ name: "Build Docker Images - CI"
 
 on:
   push:
-    branches: [ actions-test ]
-  pull_request:
     branches: [ main ]
 
 jobs:
