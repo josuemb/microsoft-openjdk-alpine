@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  BASE_LABEL: "josuemb/microsoft-openjdk-alpine"
+
 jobs:
 
   find_docker_files:
@@ -22,7 +25,7 @@ jobs:
         id: get-docker-files
         name: "Get Docker files list"
         run: |
-          DOCKER_FILES=$(find ${{ github.workspace }} -iname Dockerfile | awk -F '/' '{print "{\"path\":\"/"$(NF-1)"\", \"file\":\""$NF"\"}"}' | paste -d "," -s | sed 's/.*/[&]/')
+          DOCKER_FILES=$(find ${{ github.workspace }} -iname Dockerfile | awk -F '/' '{print "{\"path\":\"/"$(NF-1)"\", \"file\":\""$NF"\",\"version\":\""$(NF-1)"\"}"}' | paste -d "," -s | sed 's/.*/[&]/')
           echo "DOCKER_FILES: $DOCKER_FILES"
           echo ::set-output name=docker_files::$DOCKER_FILES
 
@@ -60,3 +63,5 @@ jobs:
         with:
           context: "${{github.workspace}}${{ matrix.docker_file.path }}"
           file: "${{github.workspace}}${{ matrix.docker_file.path }}/${{ matrix.docker_file.file }}"
+          load: true
+          tags: "${{ env.BASE_LABEL }}:"${{ matrix.docker_file.version }}"
