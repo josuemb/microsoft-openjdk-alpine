@@ -59,6 +59,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: "${{github.workspace}}${{ matrix.docker_file.path }}"
-          file: "${{ matrix.docker_file.file }}"
-        #run: |
-        #  echo "Docker file: ${{ matrix.docker_file }}"
+          file: "${{github.workspace}}${{ matrix.docker_file.path }}${{ matrix.docker_file.file }}"
