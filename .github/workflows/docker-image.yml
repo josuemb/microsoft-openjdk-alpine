@@ -25,3 +25,16 @@ jobs:
           DOCKER_FILES="[$(find . -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
           echo "DOCKER_FILES: $DOCKER_FILES"
           echo ::set-output name=docker_files::$DOCKER_FILES
+
+  build_and_push_images:
+    runs-on: ubuntu-latest
+    name: "Build and Push Docker Images to repository"
+    needs: find_docker_files
+    strategy:
+      matrix: ${{fromJSON(needs.find_docker_files.outputs.docker_files)}}
+    steps:
+      -
+        id: login-to-docker-repository
+        name: "Login to Docker Repository"
+        run: |
+          echo "Login..."
