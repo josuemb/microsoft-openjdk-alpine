@@ -54,8 +54,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        id: build-and-push-image
-        name: "Build and push Docker image to the registry"
+        id: build-image
+        name: "Build Docker image and save to local registry"
         uses: docker/build-push-action@v3
         with:
           context: "${{github.workspace}}${{ matrix.docker_file.path }}"
@@ -64,8 +64,17 @@ jobs:
           tags: "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}"
       -
         id: test-image
-        name: "Test Docker image locally"
+        name: "Test Docker Image"
         run: |
           JAVA_VERSION=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java --version)
           echo "JAVA_VERSION:"
           echo $JAVA_VERSION
+      -
+        id: build-and-push-image
+        name: "Push Docker image to the public registry"
+        uses: docker/build-push-action@v3
+        with:
+          context: "${{github.workspace}}${{ matrix.docker_file.path }}"
+          file: "${{github.workspace}}${{ matrix.docker_file.path }}/${{ matrix.docker_file.file }}"
+          push: true
+          tags: "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}"
