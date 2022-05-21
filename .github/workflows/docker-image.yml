@@ -14,7 +14,7 @@ jobs:
       matrix: ${{ steps.find_docker_files.outputs.docker_files }}
     name: "Get changed Docker Files"
     steps:
-      - id: get-changed-docker-files
+      id: get-changed-docker-files
       name: "Get changed Docker Files"
       uses: actions/checkout@v3
       run: |
