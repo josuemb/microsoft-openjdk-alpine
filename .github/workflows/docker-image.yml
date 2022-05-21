@@ -16,5 +16,11 @@ jobs:
     steps:
       -
         id: git-checkout
-        name: "Checkut files from GIT"
+        name: "Checkout files from GIT"
         uses: actions/checkout@v3
+      -
+        id: get-docker-files
+        name: "Get Docker files list"
+        run: |
+          CHANGED_FILES="[$(find {{ github.workspace }} -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
+          echo ::set-output name=docker_files::$CHANGED_FILES
