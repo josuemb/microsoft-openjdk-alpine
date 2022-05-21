@@ -23,5 +23,6 @@ jobs:
           if [ $? -ne 0 ] ;
           then
             echo "Error building image for: $FILE"
+            exit 1
           fi
         done
