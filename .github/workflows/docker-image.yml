@@ -8,15 +8,12 @@ on:
 
 jobs:
 
-  find_docker_files:
+  build:
+
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.find_docker_files.outputs.docker_files }}
-    name: "Get changed Docker Files"
+
     steps:
-      - uses: actions/checkout@v3
-      id: get-changed-docker-files
-      name: "Get changed Docker Files"      
+    - uses: actions/checkout@v3
+    - name: Build the Docker images changed
       run: |
-        CHANGED_FILES="[$(find {{ github.workspace }} -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
-        echo ::set-output name=docker_files::$CHANGED_FILES
+        echo "Hello"
