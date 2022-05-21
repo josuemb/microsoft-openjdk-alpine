@@ -35,6 +35,10 @@ jobs:
         docker_file: ${{fromJSON(needs.find_docker_files.outputs.docker_files)}}
     steps:
       -
+        id: git-checkout
+        name: "Checkout files from GIT"
+        uses: actions/checkout@v3
+      -
         id: setup-quemu
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
