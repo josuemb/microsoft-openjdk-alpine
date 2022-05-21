@@ -18,6 +18,13 @@ jobs:
     - id: get-changed-docker-files
       name: "Get Docker Files"
       run: |
-        DOCKER_FILES="[$(find ${{ github.workspace }} -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
+        DOCKER_FILES="[$(find . -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
         echo "DOCKER_FILES: $DOCKER_FILES"
         echo echo "::set-output name=docker_files::$DOCKER_FILES"
+
+  build_and_push_images:
+    runs-on: ubuntu-latest
+    name: "Build and Push Docker Images"
+    steps:
+    -id: login-to-docker-repository
+      name: "Login to Docker repository"
