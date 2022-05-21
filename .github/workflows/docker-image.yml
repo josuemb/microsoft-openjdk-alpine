@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Get Docker Files list"
     outputs:
-      docker_files: ${{ steps.find_docker_files.outputs.docker_files }}
+      docker_files: ${{ steps.get-docker-files.outputs.docker_files }}
     steps:
       -
         id: git-checkout
