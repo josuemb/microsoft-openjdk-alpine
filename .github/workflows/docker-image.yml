@@ -21,7 +21,3 @@ jobs:
         DOCKER_FILES="[$(find . -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
         echo "DOCKER_FILES: $DOCKER_FILES"
         echo echo "::set-output name=docker_files::$DOCKER_FILES"
-
-  build_and_push_images:
-    runs-on: ubuntu-latest
-    name: "Build and Push Docker Images"
