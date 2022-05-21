@@ -25,4 +25,10 @@ jobs:
             echo "Error building image for: $FILE"
             exit 1
           fi
+          docker run $TEMP_IMAGE_NAME java --version
+          if [ $? -ne 0 ] ;
+          then
+            echo "Error testing image for: $FILE"
+            exit 1
+          fi          
         done
