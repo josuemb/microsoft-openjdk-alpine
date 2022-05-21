@@ -38,8 +38,8 @@ jobs:
         id: login-to-docker-repository
         name: "Login to Docker Repository"
         env:
-          username: ${{ secrets.GITLAB_USERNAME }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
-          echo "USERNAME: $env.WHO_TO_TRUST"
+          echo "USERNAME: $DOCKERHUB_USERNAME"
         #run: |
         #  echo "Docker file: ${{ matrix.docker_file }}"
