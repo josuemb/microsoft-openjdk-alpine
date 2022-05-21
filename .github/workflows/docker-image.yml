@@ -25,6 +25,3 @@ jobs:
   build_and_push_images:
     runs-on: ubuntu-latest
     name: "Build and Push Docker Images"
-    steps:
-    -id: login-to-docker-repository
-      name: "Login to Docker repository"
