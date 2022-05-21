@@ -22,5 +22,5 @@ jobs:
         id: get-docker-files
         name: "Get Docker files list"
         run: |
-          CHANGED_FILES="[$(find {{ github.workspace }} -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
+          CHANGED_FILES="[$(find . -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
           echo ::set-output name=docker_files::$CHANGED_FILES
