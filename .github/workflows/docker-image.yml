@@ -49,5 +49,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        id: build-and-push-images
+        name: "Build and push Docker images to the registry"
+        uses: docker/build-push-action@v3
+        with:
+          context: "${{github.workspace}}/${{ matrix.docker_file }}"
         #run: |
         #  echo "Docker file: ${{ matrix.docker_file }}"
