@@ -8,27 +8,15 @@ on:
 
 jobs:
 
-  build:
-
+  find_docker_files:
     runs-on: ubuntu-latest
-
+    outputs:
+      matrix: ${{ steps.find_docker_files.outputs.docker_files }}
+    name: "Get changed Docker Files"
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker images changed
+      - id: get-changed-docker-files
+      name: "Get changed Docker Files"
+      uses: actions/checkout@v3
       run: |
-        for FILE in $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -i "Dockerfile")
-        do
-          TEMP_IMAGE_NAME="img-$RANDOM"
-          docker build {{ github.workspace }} --file $FILE -t $TEMP_IMAGE_NAME
-          if [ $? -ne 0 ] ;
-          then
-            echo "Error building image for: $FILE"
-            exit 1
-          fi
-          docker run $TEMP_IMAGE_NAME java --version
-          if [ $? -ne 0 ] ;
-          then
-            echo "Error testing image for: $FILE"
-            exit 1
-          fi          
-        done
+        CHANGED_FILES="[$(find {{ github.workspace }} -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
+        echo ::set-output name=docker_files::$CHANGED_FILES
