@@ -20,8 +20,8 @@ jobs:
         do
           TEMP_IMAGE_NAME="img-$RANDOM"
           docker build {{ github.workspace }} --file $FILE -t $TEMP_IMAGE_NAME
-          if [ $? -ne 0 ];
+          if [ $? -ne 0 ] ;
           then
-            echo "Error building image for: $FILE"
-            exit 1
+            echo "Error building image for: $FILE";
+            exit 1;
           fi
