@@ -15,7 +15,10 @@ jobs:
       docker_files: ${{ steps.find_docker_files.outputs.docker_files }}
     steps:
     -
+      id: git-checkout
+      name: "Checkut files from GIT"
       uses: actions/checkout@v3
+
       id: get-changed-docker-files
       name: "Get Docker Files"
       run: |
