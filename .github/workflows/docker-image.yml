@@ -19,4 +19,5 @@ jobs:
       name: "Get changed Docker Files"
       run: |
         CHANGED_FILES="[$(find ${{ github.workspace }} -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
-        echo ::set-output name=docker_files::$CHANGED_FILES
+        echo $CHANGED_FILES
+        echo echo "::set-output name=docker_files::$CHANGED_FILES"
