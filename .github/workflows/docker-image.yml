@@ -10,14 +10,14 @@ jobs:
 
   find_docker_files:
     runs-on: ubuntu-latest
-    name: "Get changed Docker Files list"
+    name: "Get Docker Files list"
     outputs:
       docker_files: ${{ steps.find_docker_files.outputs.docker_files }}
     steps:
     - uses: actions/checkout@v3
     - id: get-changed-docker-files
-      name: "Get changed Docker Files"
+      name: "Get Docker Files"
       run: |
-        CHANGED_FILES="[$(find ${{ github.workspace }} -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
-        echo "CHANGED_FILES: $CHANGED_FILES"
-        echo echo "::set-output name=docker_files::$CHANGED_FILES"
+        DOCKER_FILES="[$(find ${{ github.workspace }} -iname Dockerfile | sed 's/.*/"&"/' | paste -d, -s)]"
+        echo "DOCKER_FILES: $DOCKER_FILES"
+        echo echo "::set-output name=docker_files::$DOCKER_FILES"
