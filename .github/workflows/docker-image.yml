@@ -32,10 +32,10 @@ jobs:
     needs: find_docker_files
     strategy:
       matrix:
-        docker_files: ${{fromJSON(needs.find_docker_files.outputs.docker_files)}}
+        docker_file: ${{fromJSON(needs.find_docker_files.outputs.docker_files)}}
     steps:
       -
         id: login-to-docker-repository
         name: "Login to Docker Repository"
         run: |
-          echo "Login..."
+          echo "Docker file: ${{ matrix.docker_file }}"
