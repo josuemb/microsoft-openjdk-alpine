@@ -24,3 +24,4 @@ jobs:
           then
             echo "Error building image for: $FILE"
           fi
+        done
