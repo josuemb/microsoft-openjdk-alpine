@@ -63,5 +63,4 @@ jobs:
         with:
           context: "${{github.workspace}}${{ matrix.docker_file.path }}"
           file: "${{github.workspace}}${{ matrix.docker_file.path }}/${{ matrix.docker_file.file }}"
-          load: true
-          tags: "${{ env.BASE_LABEL }}:"${{ matrix.docker_file.version }}"
+          load: true      
