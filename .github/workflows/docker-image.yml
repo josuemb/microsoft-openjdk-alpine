@@ -31,7 +31,8 @@ jobs:
     name: "Build and Push Docker Images to repository"
     needs: find_docker_files
     strategy:
-      matrix: ${{fromJSON(needs.find_docker_files.outputs.docker_files)}}
+      matrix:
+        docker_files: ${{fromJSON(needs.find_docker_files.outputs.docker_files)}}
     steps:
       -
         id: login-to-docker-repository
