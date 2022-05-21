@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  BASE_LABEL: "josuemb/microsoftopenjdkalpine"
-
 jobs:
 
   find_docker_files:
@@ -64,4 +61,4 @@ jobs:
           context: "${{github.workspace}}${{ matrix.docker_file.path }}"
           file: "${{github.workspace}}${{ matrix.docker_file.path }}/${{ matrix.docker_file.file }}"
           load: true
-          tags: "${{ env.BASE_LABEL }}:${{ matrix.docker_file.version }}"
+          tags: "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}"
