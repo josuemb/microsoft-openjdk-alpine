@@ -59,8 +59,7 @@ jobs:
       - id: test-image
         name: "Test Docker Image"
         run: |
-          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java --version
-          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" wget ${{ secrets.URL_TEST_JAVA_PROGRAM }}; ls *
+          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java ./tools/GetJavaPropertiesAsJson.java
       - id: build-and-push-image
         name: "Push Docker image to the public registry"
         uses: docker/build-push-action@v3
