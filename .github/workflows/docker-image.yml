@@ -59,7 +59,7 @@ jobs:
       - id: test-image
         name: "Test Docker Image"
         run: |
-          JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q https://gist.githubusercontent.com/josuemb/abee83f69a0af7e5beb9dd084b4eb6db/raw/81afe2a71f32e4d6e4116721a128a5dd4e40e989/test-microsoft-openjdk-alpine.sh -O /dev/stdout | /bin/sh")
+          JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q ${{ secrets.URL_TEST_MICROSOFT_OPENJDK_ALPINE }} -O /dev/stdout | /bin/sh")
           echo $JAVA_INFO
           echo "::set-output name=java_info::$JAVA_INFO"
       - id: build-and-push-image
