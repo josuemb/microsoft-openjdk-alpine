@@ -60,7 +60,7 @@ jobs:
       - id: test-image
         name: "Test Docker Image"
         run: |
-          JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q ${{ secrets.URL_GET_JAVA_INFO }} -O /dev/stdout")
+          JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q ${{ secrets.URL_GET_JAVA_INFO }} -O /dev/stdout | /bin/sh")
           echo $JAVA_INFO
           echo "::set-output name=java_info::$JAVA_INFO"
       - id: build-and-push-image
