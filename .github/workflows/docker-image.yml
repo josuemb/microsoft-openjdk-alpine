@@ -3,6 +3,8 @@ name: "Build Docker Images - CI"
 on:
   push:
     branches: [ main ]
+  schedule:
+    - cron: '0 18 * * 6'  # Every Sunday at 6 hrs (UTC), 0 hrs CST
 
 jobs:
 
@@ -22,12 +24,14 @@ jobs:
         run: |
           DOCKER_FILES=$(find ${{ github.workspace }} -iname Dockerfile | awk -F '/' '{print "{\"path\":\"/"$(NF-1)"\", \"file\":\""$NF"\",\"version\":\""$(NF-1)"\"}"}' | paste -d "," -s | sed 's/.*/[&]/')
           echo "DOCKER_FILES: $DOCKER_FILES"
-          echo ::set-output name=docker_files::$DOCKER_FILES
+          echo "::set-output name=docker_files::$DOCKER_FILES"
 
   build_and_push_images:
     runs-on: ubuntu-latest
     name: "Build and Push Docker Image to repository"
     needs: find_docker_files
+    outputs:
+      java_info: {{  }}
     strategy:
       matrix:
         docker_file: ${{fromJSON(needs.find_docker_files.outputs.docker_files)}}
@@ -64,9 +68,13 @@ jobs:
         id: test-image
         name: "Test Docker Image"
         run: |
-          JAVA_VERSION=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java --version)
-          echo "JAVA_VERSION:"
-          echo $JAVA_VERSION
+          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java --version
+          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" wget -q ${{ secrets.URL_TEST_JAVA_PROGRAM }} -p /tmp/
+          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" wget -q ${{ secrets.URL_TEST_JAVA_PROGRAM }} -p /tmp/
+          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" wget -q ${{ secrets.URL_TEST_JAVA_PROGRAM }} -O /tmp/GetJavaPropertiesAsJson.java
+          JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java /tmp/GetJavaPropertiesAsJson.java)
+          echo $JAVA_INFO
+          echo "::set-output name=java_info::{{ fromJSON($JAVA_INFO) }}"
       -
         id: build-and-push-image
         name: "Push Docker image to the public registry"
