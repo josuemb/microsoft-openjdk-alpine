@@ -27,8 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     name: "Build and Push Docker Image to repository"
     needs: find_docker_files
-    #outputs:
-    #  java_info: ${{ fromJSON(steps.test-image.outputs.java_info) }}
+    outputs:
+      java_info: ${{ fromJSON(steps.test-image.outputs.java_info) }}
     strategy:
       matrix:
         docker_file: ${{ fromJSON(needs.find_docker_files.outputs.docker_files) }}
