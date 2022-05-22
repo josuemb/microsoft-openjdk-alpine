@@ -63,6 +63,9 @@ jobs:
           JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q ${{ secrets.URL_GET_JAVA_INFO }} -O /dev/stdout | /bin/sh")
           echo $JAVA_INFO
           echo "::set-output name=java_info::$JAVA_INFO"
+          OS_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "cat /etc/os-release | sed 's|"||g' | awk -F '=' 'BEGIN{print "["} NR>1 {print ","} {print "\""$1"\""":""\""$2"\""} END{print "]"}' | paste -d "" -s")
+          echo $OS_INFO
+          echo "::set-output name=os_info::$OS_INFO"
       - id: build-and-push-image
         name: "Push Docker image to the public registry"
         uses: docker/build-push-action@v3
