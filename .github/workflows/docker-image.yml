@@ -20,8 +20,8 @@ jobs:
         name: "Get Docker files list"
         run: |
           DOCKER_FILES=$(find ${{ github.workspace }} -iname Dockerfile | awk -F '/' '{print "{\"path\":\"/"$(NF-1)"\", \"file\":\""$NF"\",\"version\":\""$(NF-1)"\"}"}' | paste -d "," -s | sed 's/.*/[&]/')
-          echo "DOCKER_FILES: ${{ toJSON($DOCKER_FILES) }}"
-          echo "::set-output name=docker_files::toJSON($DOCKER_FILES}"
+          echo "${{ toJSON($DOCKER_FILES) }}"
+          echo "::set-output name=docker_files::$DOCKER_FILES"
 
   build_and_push_images:
     runs-on: ubuntu-latest
