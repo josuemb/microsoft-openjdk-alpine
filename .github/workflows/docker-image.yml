@@ -20,15 +20,15 @@ jobs:
         name: "Get Docker files list"
         run: |
           DOCKER_FILES=$(find ${{ github.workspace }} -iname Dockerfile | awk -F '/' '{print "{\"path\":\"/"$(NF-1)"\", \"file\":\""$NF"\",\"version\":\""$(NF-1)"\"}"}' | paste -d "," -s | sed 's/.*/[&]/')
-          echo "DOCKER_FILES: $DOCKER_FILES"
-          echo "::set-output name=docker_files::$DOCKER_FILES"
+          echo "DOCKER_FILES: ${{ toJSON($DOCKER_FILES) }}"
+          echo "::set-output name=docker_files::toJSON($DOCKER_FILES}"
 
   build_and_push_images:
     runs-on: ubuntu-latest
     name: "Build and Push Docker Image to repository"
     needs: find_docker_files
     outputs:
-      java_info: ${{ fromJSON(steps.test-image.outputs.java_info) }}
+      java_info: ${{ steps.test-image.outputs.java_info }}
     strategy:
       matrix:
         docker_file: ${{ needs.find_docker_files.outputs.docker_files }}
@@ -61,7 +61,7 @@ jobs:
         run: |
           JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q https://gist.githubusercontent.com/josuemb/abee83f69a0af7e5beb9dd084b4eb6db/raw/81afe2a71f32e4d6e4116721a128a5dd4e40e989/test-microsoft-openjdk-alpine.sh -O /dev/stdout | /bin/sh")
           echo $JAVA_INFO
-          echo "::set-output name=java_info::fomJSON($JAVA_INFO)"
+          echo "::set-output name=java_info::$JAVA_INFO"
       - id: build-and-push-image
         name: "Push Docker image to the public registry"
         uses: docker/build-push-action@v3
