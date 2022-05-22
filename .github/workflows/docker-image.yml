@@ -59,7 +59,7 @@ jobs:
       - id: test-image
         name: "Test Docker Image"
         run: |
-          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q -O https://gist.githubusercontent.com/josuemb/abee83f69a0af7e5beb9dd084b4eb6db/raw/81afe2a71f32e4d6e4116721a128a5dd4e40e989/test-microsoft-openjdk-alpine.sh | /bin/sh"
+          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q https://gist.githubusercontent.com/josuemb/abee83f69a0af7e5beb9dd084b4eb6db/raw/81afe2a71f32e4d6e4116721a128a5dd4e40e989/test-microsoft-openjdk-alpine.sh -O /dev/stdout | /bin/sh"
       - id: build-and-push-image
         name: "Push Docker image to the public registry"
         uses: docker/build-push-action@v3
