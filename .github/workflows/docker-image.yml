@@ -59,9 +59,8 @@ jobs:
       - id: test-image
         name: "Test Docker Image"
         run: |
-          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java --version          
-          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" wget -q ${{ secrets.URL_TEST_JAVA_PROGRAM }} -O /tmp/GetJavaPropertiesAsJson.java
-          JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java /tmp/GetJavaPropertiesAsJson.java)
+          docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" java --version
+          JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" wget -q ${{ secrets.URL_TEST_JAVA_PROGRAM }} -O /tmp/GetJavaPropertiesAsJson.java; java /tmp/GetJavaPropertiesAsJson.java)
           echo $JAVA_INFO
           echo "::set-output name=java_info::$JAVA_INFO"
       - id: build-and-push-image
