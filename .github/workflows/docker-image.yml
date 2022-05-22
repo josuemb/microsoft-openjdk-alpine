@@ -31,7 +31,7 @@ jobs:
       java_info: ${{ fromJSON(steps.test-image.outputs.java_info) }}
     strategy:
       matrix:
-        docker_file: ${{ fromJSON(needs.find_docker_files.outputs.docker_files) }}
+        docker_file: ${{ needs.find_docker_files.outputs.docker_files }}
     steps:
       - id: git-checkout
         name: "Checkout files from GIT"
@@ -61,7 +61,7 @@ jobs:
         run: |
           JAVA_INFO=$(docker run --rm "${{ secrets.BASE_TAG }}:${{ matrix.docker_file.version }}" /bin/sh -c "wget -q https://gist.githubusercontent.com/josuemb/abee83f69a0af7e5beb9dd084b4eb6db/raw/81afe2a71f32e4d6e4116721a128a5dd4e40e989/test-microsoft-openjdk-alpine.sh -O /dev/stdout | /bin/sh")
           echo $JAVA_INFO
-          echo "::set-output name=java_info::$JAVA_INFO"
+          echo "::set-output name=java_info::fomJSON($JAVA_INFO)"
       - id: build-and-push-image
         name: "Push Docker image to the public registry"
         uses: docker/build-push-action@v3
