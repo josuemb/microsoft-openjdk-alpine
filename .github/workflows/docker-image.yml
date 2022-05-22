@@ -31,7 +31,7 @@ jobs:
       java_info: ${{ steps.test-image.outputs.java_info }}
     strategy:
       matrix:
-        docker_file: ${{ needs.find_docker_files.outputs.docker_files }}
+        docker_file: ${{ toJSON(needs.find_docker_files.outputs.docker_files) }}
     steps:
       - id: git-checkout
         name: "Checkout files from GIT"
