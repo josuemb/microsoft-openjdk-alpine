@@ -19,7 +19,7 @@ jobs:
       - id: get-docker-files
         name: "Get Docker files list"
         run: |
-          DOCKER_FILES=$(find ${{ github.workspace }} -iname Dockerfile | awk -F '/' 'BEGIN{print "["} NR>1 { print ","} {print "{\"path\":\"/"$(NF-1)"\", \"file\":\""$NF"\",\"version\":\""$(NF-1)"\"}"} END{print "]"}' | paste -d "" -s')
+          DOCKER_FILES=$(find ${{ github.workspace }} -iname Dockerfile | awk -F '/' 'BEGIN{print "["} NR>1 { print ","} {print "{\"path\":\"/"$(NF-1)"\", \"file\":\""$NF"\",\"version\":\""$(NF-1)"\"}"} END{print "]"}' | paste -d "" -s)
           echo "$DOCKER_FILES"
           echo "::set-output name=docker_files::$DOCKER_FILES"
 
