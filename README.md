@@ -12,7 +12,7 @@ Dockerfiles to create Microsoft OpenJDK images with Alpine Linux.
 
 - **Removed**: Java 11 (End of Life as of September 2023)
 - **Added**: Java 21 (current LTS, released September 2023)
-- **Improved**: Pinned Alpine to 3.20, multi-stage builds to reduce image size
+- **Improved**: Pinned Alpine to 3.24, multi-stage builds to reduce image size
 
 ## References
 
